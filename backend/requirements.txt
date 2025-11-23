@@ -1,0 +1,9 @@
+fastapi
+uvicorn
+pydantic
+pandas
+spellchecker
+vaderSentiment
+python-multipart
+jinja2
+openpyxl

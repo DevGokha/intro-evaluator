@@ -94,13 +94,13 @@ Final score = Σ (score_i × weight_i) × 100
 
 ### Dashboard UI  
 *(Add your own uploaded image path here)*  
-![Dashboard Screenshot](PATH_TO_YOUR_SCREENSHOT_1)
+[![Dashboard Screenshot](PATH_TO_YOUR_SCREENSHOT_1)](https://drive.google.com/file/d/1S10KHKZnw1QA99sN0xIwxYHsfcVOCWG6/view?usp=sharing)
 
 ### Detailed Breakdown  
-![Detailed View](PATH_TO_YOUR_SCREENSHOT_2)
+[![Detailed View](PATH_TO_YOUR_SCREENSHOT_2)](https://drive.google.com/file/d/1_Rs-zVldc6jp7atek_aZASFlff41ESf5/view?usp=sharing)
 
 ### API Documentation  
-![Swagger](PATH_TO_YOUR_SCREENSHOT_3)
+[![Swagger](PATH_TO_YOUR_SCREENSHOT_3)](https://drive.google.com/file/d/1kRE9r3mgGaoCVpxuZQnUENJY_GR5cPJC/view?usp=sharing)
 
 ---
 

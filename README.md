@@ -1,204 +1,124 @@
-🎤 Student Introduction Evaluation Tool
+# Student Introduction Evaluation Tool
 
-A rubric-based scoring system for evaluating spoken/written introductions
+A standalone rubric-based scoring system for evaluating spoken or written student introductions.  
+This project evaluates a transcript using a configurable Excel rubric and returns a weighted score, criterion-level breakdowns, grammar/clarity metrics, speech-rate estimates, and diagnostic feedback.
 
-This tool evaluates a student’s introduction transcript using a structured rubric and returns:
+This repository is independent and not related to any other project.
 
-Overall score (0–100)
+Live/demo: self-hosted FastAPI backend + simple frontend
 
-Criterion-wise score
+## What it does
 
-Grammar/Clarity metrics
+- Accepts a transcript (text) and optional duration (seconds)
+- Loads a rubric from an Excel file (dynamic, weighted criteria)
+- Computes per-criterion scores and a weighted overall score (0–100)
+- Provides:
+  - Overall score
+  - Criterion-wise scores and notes
+  - Grammar/spelling hints
+  - Filler word counts
+  - Word/sentence counts and estimated WPM
+  - Sentiment/engagement estimate
+  - Structured JSON output for UI or API consumers
 
-Speech rate
+## Key features
 
-Sentiment/engagement
+- Excel-based dynamic rubric ingestion
+- Rule-based checks (greeting, name, goals, closing)
+- Keyword/pattern detection and simple flow analysis
+- Grammar estimation via lightweight spell-checking
+- Filler-word detection and counts
+- Sentiment analysis (VADER)
+- Approximate speech-rate estimation using duration (WPM)
+- Simple web UI and OpenAPI/Swagger for testing
 
-Content & structure quality
+## Quick architecture
 
-It is designed as part of the Nirmaan AI Case Study to demonstrate product thinking, technical execution, and tool-building ability.
+index.html (UI) → POST /score → FastAPI backend
+- rubric_loader.py — load & normalize rubric
+- scoring.py — scoring rules, grammar/filler/sentiment modules
+- main.py — API endpoints and orchestration
+- models.py — Pydantic request/response schemas
 
-🚀 1. Problem Understanding
+Returns JSON scoring response consumable by UI or other services.
 
-The goal is to build a tool that:
+## Folder structure
 
-✔ Accepts a transcript (text input)
-✔ Evaluates it using a rubric provided in an Excel file
-✔ Produces a weighted score
-✔ Provides detailed feedback
-✔ Can be tested through UI or API
-✔ Is designed with clean, extensible architecture
-
-The problem is open-ended, so the focus is on thought process, workflow design, and tool choice, not just coding.
-
-🧠 2. Product Approach
-
-To solve the problem, I used a hybrid approach:
-
-Rule-Based Evaluation
-
-Keyword and pattern detection
-
-Greeting / name / family / hobbies / goals
-
-Simple flow structure (intro → content → closing)
-
-NLP-Based Evaluation
-
-Sentiment analysis (VADER)
-
-Spelling-based grammar estimation
-
-Filler word detection
-
-Timing-Based Evaluation
-
-Approximate speech rate (WPM) using duration
-
-Weighted Scoring
-
-Rubric weights were normalized and used to compute:
-
-overall_score = Σ (criterion_score × weight)
-
-
-This ensures consistency with the rubric.
-
-📊 3. System Architecture
-                   ┌────────────────┐
-                   │   index.html   │
-                   │ (Simple UI)    │
-                   └───────▲────────┘
-                           │  POST /score
-                           ▼
-┌───────────────────────────────────────────────────────────┐
-│                         FastAPI                           │
-│                                                           │
-│     ┌─────────────┐      ┌──────────────────────────┐     │
-│     │ rubric_loader│ ---> │ scoring.py               │     │
-│     └─────────────┘      │ (content, grammar,       │     │
-│                           │  filler, sentiment…)     │     │
-│                                                           │
-└───────────────────────────────────────────────────────────┘
-                           │
-                           ▼
-                   JSON Score Output
-
-📁 4. Folder Structure
 intro-evaluator/
-│
 ├── backend/
 │   ├── main.py
 │   ├── scoring.py
 │   ├── rubric_loader.py
 │   ├── models.py
 │   ├── templates/
-│   │      └── index.html
-│   ├── static/
-│          └── script.js
-│
+│   │   └── index.html
+│   └── static/
+│       └── script.js
 ├── rubric/
-│     └── Case study for interns.xlsx
-│
+│   └── case-study-rubric.xlsx
 └── sample/
-      └── Sample text for case study.txt
+    └── sample-transcripts.txt
 
-🛠 5. Tech Stack
-Backend
+## API
 
-FastAPI
-
-Python 3
-
-Pandas (Excel parsing)
-
-SpellChecker (light grammar checking)
-
-VADER Sentiment Analysis
-
-Regex-based NLP processing
-
-Frontend
-
-HTML + JS (simple UI)
-
-Jinja2 template rendering
-
-Package installation
-pip install -r requirements.txt
-
-🧪 6. How to Run Locally
-1️⃣ Navigate to backend folder:
-cd backend
-
-2️⃣ Start the FastAPI server:
-uvicorn main:app --reload
-
-3️⃣ Open the frontend:
-
-👉 http://127.0.0.1:8000
-
-4️⃣ Test the scoring using:
-
-UI (paste transcript)
-
-Swagger API: http://127.0.0.1:8000/docs
-
-📝 7. API Usage
 POST /score
-Example Request:
-{
-  "transcript": "Hello everyone, my name is ...",
-  "duration_seconds": 52
-}
+- Request:
+  {
+    "transcript": "Hello everyone, my name is ...",
+    "duration_seconds": 52    // optional
+  }
 
-Example Response:
-{
-  "overall_score": 92.1,
-  "criteria_scores": {
-    "Content & Structure": {...},
-    "Speech Rate": {...},
-    "Language & Grammar": {...},
-    "Clarity": {...},
-    "Engagement": {...}
-  },
-  "word_count": 134,
-  "sentence_count": 11
-}
+- Response:
+  {
+    "overall_score": 92.1,
+    "criteria_scores": { ... },
+    "word_count": 134,
+    "sentence_count": 11,
+    "filler_count": 3,
+    "wpm_estimate": 154,
+    "sentiment": { "compound": 0.71, "label": "positive" }
+  }
 
-📌 8. Key Features Implemented
-✔ Excel-based dynamic rubric loading
-✔ Weighted score computation
-✔ Grammar estimation using SpellChecker
-✔ Filler word detection
-✔ Sentiment analysis
-✔ Simple flow analysis
-✔ Web UI for easy testing
-✔ API for integration
-🌱 9. Future Improvements
+## How to run locally
 
-Real grammar evaluation using LanguageTool (Java required)
+1. Create and activate a Python virtual environment.
+2. Install dependencies:
+   pip install -r requirements.txt
+3. From the backend directory:
+   uvicorn main:app --reload
+4. Open the UI at:
+   http://127.0.0.1:8000
+5. Use Swagger docs:
+   http://127.0.0.1:8000/docs
 
-Speech-to-text integration (for audio input)
+Notes:
+- Place your rubric Excel at `rubric/case-study-rubric.xlsx` or change the path in `rubric_loader.py`.
+- If `duration_seconds` is omitted, WPM-based scoring is skipped or approximated.
 
-Advanced semantic analysis using embeddings
+## Tech stack
 
-Visualization dashboard (radar chart for scoring)
+- Python 3.x, FastAPI, Uvicorn
+- pandas (Excel parsing)
+- pyspellchecker (light grammar hints) or similar
+- NLTK VADER for sentiment
+- Regex-based NLP for filler/keyword detection
+- Jinja2 + plain JS frontend
 
-Multi-language support
+## Rubric & scoring
 
-Teacher/admin dashboard
+- Rubric stored in Excel with fields: criterion, max_score, weight (weights are normalized)
+- Each scoring function returns a score and notes; overall score = Σ(score × normalized_weight)
 
-🏁 10. Conclusion
+## Limitations & future work
 
-This project demonstrates:
+- Replace spellchecker heuristics with LanguageTool or a grammar API
+- Add speech-to-text pipeline to accept audio inputs
+- Use semantic embeddings for deeper content quality assessment
+- Build a teacher dashboard and batch evaluation mode
+- Add unit tests and CI for scoring functions
 
-End-to-end product solution
+## Author
 
-Clean modular architecture
+Dev Gokha  
+AI/ML Developer
 
-Practical NLP application
-
-Thoughtful rubric interpretation
-
-Clear UI + API usability

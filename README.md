@@ -93,7 +93,7 @@ Final score = Σ (score_i × weight_i) × 100
 ## 🖼️ Screenshots
 
 ### Dashboard UI  
-*(Add your own uploaded image path here)*  
+  
 [![Dashboard Screenshot](PATH_TO_YOUR_SCREENSHOT_1)](https://drive.google.com/file/d/1S10KHKZnw1QA99sN0xIwxYHsfcVOCWG6/view?usp=sharing)
 
 ### Detailed Breakdown  
@@ -157,17 +157,17 @@ https://drive.google.com/drive/folders/ADD_YOUR_LINK
 
 📝 Case Study Reflection
 
-This solution was developed with a focus on:
-
-Structured product thinking
-
-Clear evaluation logic
-
-Clean API architecture
-
-User-friendly dashboard
-
-Interpretable scoring
+  This solution was developed with a focus on:
+  
+  Structured product thinking
+  
+  Clear evaluation logic
+  
+  Clean API architecture
+  
+  User-friendly dashboard
+  
+  Interpretable scoring
 
 Even though the case study is intentionally open-ended, the system is fully functional and extensible.
 

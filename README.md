@@ -1,134 +1,76 @@
-```markdown
-# Student Introduction Evaluation Tool
+# 🎙️ Intro Evaluator – Student Introduction Scoring Tool  
+A rubric-driven evaluation system that scores a student's spoken introduction using NLP, sentiment analysis, filler-word detection, grammar scoring, and rubric weights extracted directly from Excel.
 
-A standalone rubric-based scoring system for evaluating spoken or written student introductions.  
-This project evaluates a transcript using a configurable Excel rubric and returns a weighted score, criterion-level breakdowns, grammar/clarity metrics, speech-rate estimates, and diagnostic feedback.
+This project was built as part of the **NirmaanAI Case Study**.  
+It demonstrates **product thinking**, **clean architecture**, and **end-to-end workflow design**.
 
-This repository is independent and not related to any other project.
+---
 
-Live/demo: self-hosted FastAPI backend + simple frontend
+## 🚀 Features
 
-## What it does
+### ✔ Rubric-Based Scoring (from Excel)
+The tool reads the official rubric (`Case study for interns.xlsx`) and extracts:
+- Criteria  
+- Metrics  
+- Weightages  
+- Normalized weights  
 
-- Accepts a transcript (text) and optional duration (seconds)
-- Loads a rubric from an Excel file (dynamic, weighted criteria)
-- Computes per-criterion scores and a weighted overall score (0–100)
-- Provides:
-  - Overall score
-  - Criterion-wise scores and notes
-  - Grammar/spelling hints
-  - Filler word counts
-  - Word/sentence counts and estimated WPM
-  - Sentiment/engagement estimate
-  - Structured JSON output for UI or API consumers
+No hardcoding — fully dynamic.
 
-## Key features
+### ✔ NLP-Based Evaluation
+Each transcript is analyzed for:
+- **Content & Structure**
+- **Speech Rate**
+- **Grammar Score** (Spellchecker)
+- **Clarity** (Filler-word rate)
+- **Engagement** (Sentiment score)
 
-- Excel-based dynamic rubric ingestion
-- Rule-based checks (greeting, name, goals, closing)
-- Keyword/pattern detection and simple flow analysis
-- Grammar estimation via lightweight spell-checking
-- Filler-word detection and counts
-- Sentiment analysis (VADER)
-- Approximate speech-rate estimation using duration (WPM)
-- Simple web UI and OpenAPI/Swagger for testing
+### ✔ Clean API + Fast Dashboard
+- FastAPI backend (`/score`)
+- Modern UI with:
+  - Radar chart  
+  - Weighted scoring breakdown  
+  - Color-coded progress bars  
+  - JSON detail panel  
 
-## Quick architecture
+### ✔ Easy Local Deployment
+- Virtual environment  
+- `requirements.txt`  
+- Clean instructions (PDF included)  
 
-index.html (UI) → POST /score → FastAPI backend
-- rubric_loader.py — load & normalize rubric
-- scoring.py — scoring rules, grammar/filler/sentiment modules
-- main.py — API endpoints and orchestration
-- models.py — Pydantic request/response schemas
+---
 
-Returns JSON scoring response consumable by UI or other services.
+## 📄 Problem Statement
 
-## Folder structure
+Build a tool that uses the provided **rubric Excel file** and **sample transcript**  
+to evaluate a student’s introduction, return structured scores,  
+and visualize them in a user-friendly dashboard.
 
-At the repository root:
+This case study is intentionally open-ended — the solution focuses on structured product design rather than raw coding.
 
-```
-README.md
-requirements.txt
-.gitignore
-backend/
-├── main.py                # FastAPI app entrypoint (uvicorn main:app --reload)
-├── scoring.py             # scoring rules, grammar, filler, sentiment
-├── rubric_loader.py       # load & normalize rubric from Excel
-├── models.py              # Pydantic schemas for requests/responses
-├── templates/
-│   └── index.html         # Simple UI
-└── static/
-    └── script.js          # UI JavaScript
-rubric/
-└── case-study-rubric.xlsx # Excel rubric used by the loader (replace as needed)
-sample/
-└── sample-transcripts.txt # Example transcripts for testing
-```
+---
 
-Notes:
-- To run the backend, change to the `backend` directory and start uvicorn:
-  cd backend
-  uvicorn main:app --reload
-- Place your rubric Excel file at `rubric/case-study-rubric.xlsx` or update the path in `rubric_loader.py`.
-- If `duration_seconds` is omitted, WPM-based scoring is skipped or approximated.
+## 🧠 Scoring Logic Overview
 
-## API
+Each transcript passes through these steps:
 
-POST /score
-- Request:
-  {
-    "transcript": "Hello everyone, my name is ...",
-    "duration_seconds": 52    // optional
-  }
+### 1️⃣ **Preprocessing**
+- Clean text  
+- Tokenization  
+- Sentence extraction  
+- Word count  
 
-- Response:
-  {
-    "overall_score": 92.1,
-    "criteria_scores": { ... },
-    "word_count": 134,
-    "sentence_count": 11,
-    "filler_count": 3,
-    "wpm_estimate": 154,
-    "sentiment": { "compound": 0.71, "label": "positive" }
-  }
+### 2️⃣ **Criteria Evaluation**
 
-## How to run locally
+| Criterion | Method | Output |
+|----------|--------|---------|
+| Content & Structure | Rule-based pattern detection | 0–1 |
+| Speech Rate | WPM calculation | 0–1 |
+| Grammar | Spellchecker errors per 100 words | 0–1 |
+| Clarity | Filler-word frequency | 0–1 |
+| Engagement | Sentiment score (VADER) | 0–1 |
 
-1. Create and activate a Python virtual environment.
-2. Install dependencies:
-   pip install -r requirements.txt
-3. From the backend directory:
-   uvicorn main:app --reload
-4. Open the UI at:
-   http://127.0.0.1:8000
-5. Use Swagger docs:
-   http://127.0.0.1:8000/docs
+### 3️⃣ **Weighted Scoring**
 
-## Tech stack
+The Excel gives weightages:
 
-- Python 3.x, FastAPI, Uvicorn
-- pandas (Excel parsing)
-- pyspellchecker (light grammar hints) or similar
-- NLTK VADER for sentiment
-- Regex-based NLP for filler/keyword detection
-- Jinja2 + plain JS frontend
-
-## Rubric & scoring
-
-- Rubric stored in Excel with fields: criterion, max_score, weight (weights are normalized)
-- Each scoring function returns a score and notes; overall score = Σ(score × normalized_weight)
-
-## Limitations & future work
-
-- Replace spellchecker heuristics with LanguageTool or a grammar API
-- Add speech-to-text pipeline to accept audio inputs
-- Use semantic embeddings for deeper content quality assessment
-- Build a teacher dashboard and batch evaluation mode
-- Add unit tests and CI for scoring functions
-
-## Author
-
-Dev Gokha  
-AI/ML Developer
-```

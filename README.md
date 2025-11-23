@@ -74,3 +74,105 @@ Each transcript passes through these steps:
 
 The Excel gives weightages:
 
+Content & Structure – 40%
+Speech Rate – 10%
+Grammar – 20%
+Clarity – 15%
+Engagement – 15%
+
+
+Final score = Σ (score_i × weight_i) × 100
+
+---
+
+## 🏗️ Project Architecture
+
+
+---
+
+## 🖼️ Screenshots
+
+### Dashboard UI  
+*(Add your own uploaded image path here)*  
+![Dashboard Screenshot](PATH_TO_YOUR_SCREENSHOT_1)
+
+### Detailed Breakdown  
+![Detailed View](PATH_TO_YOUR_SCREENSHOT_2)
+
+### API Documentation  
+![Swagger](PATH_TO_YOUR_SCREENSHOT_3)
+
+---
+
+## 🔧 Installation & Local Run
+
+### 1. Clone Repo
+```bash
+git clone https://github.com/DevGokha/intro-evaluator.git
+cd intro-evaluator
+
+2. Create Virtual Environment
+python -m venv venv
+venv\Scripts\activate
+
+3. Install Dependencies
+pip install -r requirements.txt
+
+4. Run API Server
+cd backend
+uvicorn main:app --reload
+
+5. Open in Browser
+
+Dashboard → http://127.0.0.1:8000
+
+API Docs → http://127.0.0.1:8000/docs
+
+📡 API Documentation
+POST /score
+
+Request:
+
+{
+  "transcript": "Hello everyone, my name is...",
+  "duration_seconds": 50
+}
+
+
+Response:
+
+{
+  "overall_score": 92.1,
+  "criteria_scores": {
+    "Content & Structure": { "score": 0.95, "weight": 0.4 },
+    "Speech Rate": { "score": 0.8, "wpm": 154.2, "weight": 0.1 },
+    "Grammar": { "score": 0.8, "errors_per_100": 1.49, "weight": 0.2 },
+    ...
+  }
+}
+
+🎥 Demo Video
+
+https://drive.google.com/drive/folders/ADD_YOUR_LINK
+
+📝 Case Study Reflection
+
+This solution was developed with a focus on:
+
+Structured product thinking
+
+Clear evaluation logic
+
+Clean API architecture
+
+User-friendly dashboard
+
+Interpretable scoring
+
+Even though the case study is intentionally open-ended, the system is fully functional and extensible.
+
+👤 Author
+
+Dev Gokha
+Email: devgokha434@gmail.com
+GitHub: https://github.com/DevGokha

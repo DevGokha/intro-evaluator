@@ -1,3 +1,4 @@
+```markdown
 # Student Introduction Evaluation Tool
 
 A standalone rubric-based scoring system for evaluating spoken or written student introductions.  
@@ -44,20 +45,33 @@ Returns JSON scoring response consumable by UI or other services.
 
 ## Folder structure
 
-intro-evaluator/
-├── backend/
-│   ├── main.py
-│   ├── scoring.py
-│   ├── rubric_loader.py
-│   ├── models.py
-│   ├── templates/
-│   │   └── index.html
-│   └── static/
-│       └── script.js
-├── rubric/
-│   └── case-study-rubric.xlsx
-└── sample/
-    └── sample-transcripts.txt
+At the repository root:
+
+```
+README.md
+requirements.txt
+.gitignore
+backend/
+├── main.py                # FastAPI app entrypoint (uvicorn main:app --reload)
+├── scoring.py             # scoring rules, grammar, filler, sentiment
+├── rubric_loader.py       # load & normalize rubric from Excel
+├── models.py              # Pydantic schemas for requests/responses
+├── templates/
+│   └── index.html         # Simple UI
+└── static/
+    └── script.js          # UI JavaScript
+rubric/
+└── case-study-rubric.xlsx # Excel rubric used by the loader (replace as needed)
+sample/
+└── sample-transcripts.txt # Example transcripts for testing
+```
+
+Notes:
+- To run the backend, change to the `backend` directory and start uvicorn:
+  cd backend
+  uvicorn main:app --reload
+- Place your rubric Excel file at `rubric/case-study-rubric.xlsx` or update the path in `rubric_loader.py`.
+- If `duration_seconds` is omitted, WPM-based scoring is skipped or approximated.
 
 ## API
 
@@ -91,10 +105,6 @@ POST /score
 5. Use Swagger docs:
    http://127.0.0.1:8000/docs
 
-Notes:
-- Place your rubric Excel at `rubric/case-study-rubric.xlsx` or change the path in `rubric_loader.py`.
-- If `duration_seconds` is omitted, WPM-based scoring is skipped or approximated.
-
 ## Tech stack
 
 - Python 3.x, FastAPI, Uvicorn
@@ -121,4 +131,4 @@ Notes:
 
 Dev Gokha  
 AI/ML Developer
-
+```
